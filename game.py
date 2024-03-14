@@ -7,14 +7,35 @@ words = ["python", "programación", "computadora", "código", "desarrollo",
 secret_word = random.choice(words)
 # Número máximo de intentos permitidos
 max_attempts = 10
-# Lista para almacenar las letras adivinadas
-guessed_letters = []
 
 print("¡Bienvenido al juego de adivinanzas!")
 print("Estoy pensando en una palabra. ¿Puedes adivinar cuál es?")
 
-word_displayed = "_" * len(secret_word)
+#Consultar nivel de dificultad elegido
+dificultad = input("Seleccione el nivel de dificultad: Fácil (F), Media (M) o Difícil (D)").lower()
+#Verificar si se ingresó una opción válida
+while dificultad != "f" and dificultad != "m" and dificultad != "d":
+    print ("La opcion ingresada no está disponible")
+    dificultad = input("Seleccione el nivel de dificultad: Fácil (F), Media (M) o Difícil (D)").lower()
+#Mostrar la palabra según el nivel de dificultad
+if dificultad == "d":
+    # Lista para almacenar las letras adivinadas. Ninguna letra
+    guessed_letters = []
+elif dificultad == "m":
+    # Lista para almacenar las letras adivinadas. Con primera y ultima letra
+    guessed_letters = [secret_word[0], secret_word[len(secret_word)-1]]
+elif dificultad == "f":
+    # Lista para almacenar las letras adivinadas. Con vocales
+    guessed_letters = ["a", "e", "i", "o", "u"]
+letters = []
+
 # Mostrarla palabra parcialmente adivinada
+for letter in secret_word:
+    if letter in guessed_letters:
+        letters.append(letter)
+    else:
+        letters.append("_")
+word_displayed = "".join(letters)
 print(f"Palabra: {word_displayed}")
 
 #Contador de intentos restantes
@@ -22,7 +43,6 @@ remaining_attempts = max_attempts
 while remaining_attempts > 0:
     # Pedir al jugador que ingrese una letra
     letter = input("Ingresa una letra: ").lower()
-    
     # Verificar si la letra ya ha sido adivinada
     if letter in guessed_letters:
         print("Ya has intentado con esa letra. Intenta con otra.")
